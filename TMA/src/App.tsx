@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import TaskList from "./Components/TaskList";
-import TaskForm from "./Components/TaskForm";
-import { Task } from "./Types/Tasks";
+import React from "react";
+import TaskList from "./components/TaskList";
+import { Task } from "./types/Tasks";
+import TaskForm from "./components/TaskForm";
+import "./index.css";
+import { useState } from "react";
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>(() => {
