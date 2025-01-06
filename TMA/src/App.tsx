@@ -30,6 +30,10 @@ const App: React.FC = () => {
     setEditingTask(null);
   };
 
+  const handleDeleteTask = (taskId: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-4xl mx-auto">
@@ -44,9 +48,7 @@ const App: React.FC = () => {
           onUpdateTask={(taskId: string, updatedTask: Partial<Task>) =>
             handleUpdateTask(taskId, updatedTask)
           }
-          onDeleteTask={(taskId) =>
-            saveTasks(tasks.filter((task) => task.id !== taskId))
-          }
+          onDeleteTask={(taskId) => handleDeleteTask(taskId)}
         />
       </div>
     </div>
