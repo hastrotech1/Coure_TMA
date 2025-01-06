@@ -13,6 +13,8 @@ interface TaskListProps {
 const TaskList: React.FC<TaskListProps> = ({
   tasks: initialTasks,
   onUpdateTask,
+  onDeleteTask,
+  onAddTask,
 }) => {
   const [filters, setFilters] = useState({ priority: "", status: "" });
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -21,7 +23,7 @@ const TaskList: React.FC<TaskListProps> = ({
   const handleAddTask = (task: Task) => {
     const newTasks = [...tasks, task];
     setTasks(newTasks);
-    onUpdateTask(task.id, task);
+    onAddTask(task);
   };
 
   const handleEditTask = (updatedTask: Task) => {
@@ -36,7 +38,7 @@ const TaskList: React.FC<TaskListProps> = ({
   const handleRemoveTask = (taskId: string) => {
     const newTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(newTasks);
-    onUpdateTask(taskId, { status: "Completed" });
+    onDeleteTask(taskId);
   };
 
   const handleStartEditing = (task: Task) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Task } from "../../types/Tasks";
 
 type TaskFormProps = {
@@ -7,7 +7,11 @@ type TaskFormProps = {
   editingTask: Task | null;
 };
 
-const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
+const TaskForm: React.FC<TaskFormProps> = ({
+  onAddTask,
+  onEditTask,
+  editingTask,
+}) => {
   const [formState, setFormState] = useState<Omit<Task, "id">>({
     title: "",
     description: "",
@@ -15,6 +19,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
     priority: "Low",
     status: "Pending",
   });
+
+  useEffect(() => {
+    if (editingTask) {
+      const { ...rest } = editingTask;
+      setFormState(rest);
+    }
+  }, [editingTask]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -32,9 +43,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
       alert("Please fill in all required fields.");
       return;
     }
-
-    onAddTask({ ...formState, id: Date.now().toString() });
-
+    if (editingTask) {
+      onEditTask({ ...formState, id: editingTask.id });
+    } else {
+      onAddTask({ ...formState, id: Date.now().toString() });
+    }
     setFormState({
       title: "",
       description: "",
@@ -49,7 +62,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
       className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       onSubmit={handleSubmit}
     >
-      <h2 className="text-2xl font-bold mb-4">Create Task</h2>
+      <h2 className="text-2xl font-bold mb-4">
+        {editingTask ? "Edit Task" : "Create Task"}
+      </h2>
 
       <label htmlFor="title" className="block text-sm font-medium mb-2">
         Title
@@ -123,6 +138,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
         disabled={!formState.title || !formState.dueDate}
       >
         Add Task
+      </button>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white p-2 rounded-lg w-full"
+        disabled={!formState.title || !formState.dueDate}
+      >
+        {editingTask ? "Update Task" : "Add Task"}
       </button>
     </form>
   );

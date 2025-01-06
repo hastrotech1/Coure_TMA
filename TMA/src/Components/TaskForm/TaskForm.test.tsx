@@ -141,18 +141,15 @@ describe("TaskForm", () => {
     let alertMock: jest.SpyInstance;
 
     beforeEach(() => {
-      // Mock the alert function
       alertMock = jest.spyOn(window, "alert").mockImplementation(() => {});
     });
 
     afterEach(() => {
-      // Restore the original alert function
       alertMock.mockRestore();
     });
 
-    it("shows alert when submitting without required fields", async () => {
+    test("shows alert when submitting without required fields", async () => {
       const mockOnAddTask = jest.fn();
-
       render(
         <TaskForm
           onAddTask={mockOnAddTask}
@@ -161,18 +158,67 @@ describe("TaskForm", () => {
         />
       );
 
-      // Simulate form submission without filling required fields
       await userEvent.click(screen.getByRole("button", { name: /add task/i }));
 
-      // Verify that the alert is called
       expect(alertMock).toHaveBeenCalledWith(
         "Please fill in all required fields."
       );
       expect(alertMock).toHaveBeenCalledTimes(1);
-
-      // Ensure the addTask callback is not called
       expect(mockOnAddTask).not.toHaveBeenCalled();
     });
+  });
+
+  test("populates form when editingTask is provided", () => {
+    const editingTask: Task = {
+      id: "123",
+      title: "Edit This Task",
+      description: "Edit Description",
+      dueDate: "2025-01-20",
+      priority: "High",
+      status: "In Progress",
+    };
+
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={editingTask}
+      />
+    );
+
+    expect(screen.getByLabelText(/title/i)).toHaveValue(editingTask.title);
+    expect(screen.getByLabelText(/description/i)).toHaveValue(
+      editingTask.description
+    );
+    expect(screen.getByLabelText(/due date/i)).toHaveValue(editingTask.dueDate);
+    expect(screen.getByLabelText(/priority/i)).toHaveValue(
+      editingTask.priority
+    );
+    expect(screen.getByLabelText(/status/i)).toHaveValue(editingTask.status);
+    expect(
+      screen.getByRole("button", { name: /update task/i })
+    ).toBeInTheDocument();
+  });
+
+  // Test date validation
+  test("prevents selection of past dates", async () => {
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
+
+    const dueDateInput = screen.getByLabelText(/due date/i);
+    const pastDate = "2020-01-01";
+
+    await userEvent.type(dueDateInput, pastDate);
+    await userEvent.click(screen.getByRole("button", { name: /add task/i }));
+
+    expect(mockOnAddTask).not.toHaveBeenCalled();
+    // Assuming you have validation for past dates
+    expect(screen.getByText(/cannot select past date/i)).toBeInTheDocument();
   });
 
   test("handles form field changes correctly", async () => {
