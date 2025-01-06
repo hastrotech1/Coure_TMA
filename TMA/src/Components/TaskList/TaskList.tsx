@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Task } from "../types/Tasks";
-import TaskForm from "./TaskForm";
+import { Task } from "../../types/Tasks";
+import TaskForm from "../TaskForm/TaskForm";
 
 interface TaskListProps {
   tasks: Task[];

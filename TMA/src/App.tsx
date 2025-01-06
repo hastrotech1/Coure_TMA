@@ -1,7 +1,7 @@
 import React from "react";
-import TaskList from "./components/TaskList";
+import TaskList from "./components/TaskList/TaskList";
 import { Task } from "./types/Tasks";
-import TaskForm from "./components/TaskForm";
+import TaskForm from "./components/TaskForm/TaskForm";
 import "./index.css";
 import { useState } from "react";
 
@@ -49,10 +49,8 @@ const App: React.FC = () => {
         <TaskList
           tasks={tasks}
           onAddTask={handleAddTask}
-          onUpdateTask={(taskId: string, updatedTask: Partial<Task>) =>
-            handleUpdateTask(taskId, updatedTask)
-          }
-          onDeleteTask={(taskId) => handleDeleteTask(taskId)}
+          onUpdateTask={handleUpdateTask}
+          onDeleteTask={handleDeleteTask}
         />
       </div>
     </div>
