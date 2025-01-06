@@ -22,7 +22,13 @@ describe("TaskForm", () => {
   });
 
   test("renders all form fields correctly", () => {
-    render(<TaskForm onAddTask={mockOnAddTask} />);
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
 
     // Check if all form elements are present
     expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
@@ -36,14 +42,26 @@ describe("TaskForm", () => {
   });
 
   test("submit button is disabled when required fields are empty", () => {
-    render(<TaskForm onAddTask={mockOnAddTask} />);
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
 
     const submitButton = screen.getByRole("button", { name: /add task/i });
     expect(submitButton).toBeDisabled();
   });
 
   test("submit button is enabled when required fields are filled", async () => {
-    render(<TaskForm onAddTask={mockOnAddTask} />);
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
 
     const titleInput = screen.getByLabelText(/title/i);
     const dueDateInput = screen.getByLabelText(/due date/i);
@@ -56,7 +74,13 @@ describe("TaskForm", () => {
   });
 
   test("form submission with valid data", async () => {
-    render(<TaskForm onAddTask={mockOnAddTask} />);
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
 
     // Fill out the form
     await userEvent.type(screen.getByLabelText(/title/i), validTask.title);
@@ -86,7 +110,13 @@ describe("TaskForm", () => {
   });
 
   test("form resets after successful submission", async () => {
-    render(<TaskForm onAddTask={mockOnAddTask} />);
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
 
     // Fill out the form
     await userEvent.type(screen.getByLabelText(/title/i), validTask.title);
@@ -108,18 +138,6 @@ describe("TaskForm", () => {
   });
 
   test("shows alert when submitting without required fields", async () => {
-    // const alertMock = jest.spyOn(window, "alert").mockImplementation(() => {});
-    // render(<TaskForm onAddTask={mockOnAddTask} />);
-
-    // // Try to submit without required fields
-    // await userEvent.click(screen.getByRole("button", { name: /add task/i }));
-
-    // expect(alertMock).toHaveBeenCalledWith(
-    //   "Please fill in all required fields."
-    // );
-    // expect(mockOnAddTask).not.toHaveBeenCalled();
-
-    // alertMock.mockRestore();
     let alertMock: jest.SpyInstance;
 
     beforeEach(() => {
@@ -135,7 +153,13 @@ describe("TaskForm", () => {
     it("shows alert when submitting without required fields", async () => {
       const mockOnAddTask = jest.fn();
 
-      render(<TaskForm onAddTask={mockOnAddTask} />);
+      render(
+        <TaskForm
+          onAddTask={mockOnAddTask}
+          onEditTask={() => {}}
+          editingTask={null}
+        />
+      );
 
       // Simulate form submission without filling required fields
       await userEvent.click(screen.getByRole("button", { name: /add task/i }));
@@ -152,7 +176,13 @@ describe("TaskForm", () => {
   });
 
   test("handles form field changes correctly", async () => {
-    render(<TaskForm onAddTask={mockOnAddTask} />);
+    render(
+      <TaskForm
+        onAddTask={mockOnAddTask}
+        onEditTask={() => {}}
+        editingTask={null}
+      />
+    );
 
     // Test each field update
 

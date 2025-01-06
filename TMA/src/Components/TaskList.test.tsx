@@ -1,73 +1,3 @@
-// import React from "react";
-// import { render, screen, fireEvent } from "@testing-library/react";
-// import TaskList from "./TaskList";
-// import { Task } from "../types/Tasks";
-// import "@testing-library/jest-dom";
-
-// const sampleTasks: Task[] = [
-//   {
-//     id: "1",
-//     title: "Task 1",
-//     description: "Description 1",
-//     dueDate: "2025-01-05",
-//     priority: "High",
-//     status: "Pending",
-//   },
-//   {
-//     id: "2",
-//     title: "Task 2",
-//     description: "Description 2",
-//     dueDate: "2025-01-10",
-//     priority: "Medium",
-//     status: "In Progress",
-//   },
-// ];
-
-// describe("TaskList", () => {
-//   it("renders tasks correctly", () => {
-//     render(
-//       <TaskList
-//         tasks={sampleTasks}
-//         onDeleteTask={jest.fn()}
-//         onUpdateTask={jest.fn()}
-//       />
-//     );
-//     expect(screen.getByText(/Task 1/i)).toBeInTheDocument();
-//     expect(screen.getByText(/Task 2/i)).toBeInTheDocument();
-
-//     const taskItems = screen.getAllByRole("heading", { level: 3 });
-//     expect(taskItems).toHaveLength(sampleTasks.length);
-
-//     expect(taskItems[0]).toHaveTextContent("Task 1");
-//     expect(taskItems[1]).toHaveTextContent("Task 2");
-//   });
-
-//   it("deletes a task after confirmation", () => {
-//     const mockDeleteTask = jest.fn();
-//     render(
-//       <TaskList
-//         tasks={sampleTasks}
-//         onDeleteTask={mockDeleteTask}
-//         onUpdateTask={jest.fn()}
-//       />
-//     );
-
-//     // Click the delete button for the first task
-//     const deleteButtons = screen.getAllByText(/delete task/i);
-//     expect(deleteButtons).toHaveLength(sampleTasks.length);
-
-//     fireEvent.click(deleteButtons[0]);
-
-//     // Simulate confirmation
-//     const confirmButton = screen.getByText(/yes/i);
-//     fireEvent.click(confirmButton);
-
-//     // Ensure the delete function is called with the correct task ID
-//     expect(mockDeleteTask).toHaveBeenCalledWith("1");
-//     expect(mockDeleteTask).toHaveBeenCalledTimes(1);
-//   });
-// });
-
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import TaskList from "./TaskList";
@@ -80,8 +10,8 @@ const sampleTasks: Task[] = [
     title: "",
     description: "",
     dueDate: "",
-    priority: undefined,
-    status: undefined,
+    priority: "Low",
+    status: "Pending",
   },
 ];
 
@@ -90,8 +20,10 @@ describe("TaskList", () => {
     render(
       <TaskList
         tasks={sampleTasks}
-        onDeleteTask={jest.fn()}
         onUpdateTask={jest.fn()}
+        onDeleteTask={(taskId) =>
+          sampleTasks.filter((task) => task.id !== taskId)
+        }
         onAddTask={jest.fn()}
       />
     );

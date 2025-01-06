@@ -3,6 +3,8 @@ import { Task } from "../types/Tasks";
 
 type TaskFormProps = {
   onAddTask: (task: Task) => void;
+  onEditTask: (updatedTask: Task) => void;
+  editingTask: Task | null;
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
