@@ -15,6 +15,29 @@ const sampleTasks: Task[] = [
   },
 ];
 
+const mockTasks: Task[] = [
+  {
+    id: "1",
+    title: "Task 1",
+    description: "",
+    dueDate: "",
+    priority: "Low",
+    status: "Pending",
+  },
+  {
+    id: "2",
+    title: "Task 2",
+    description: "",
+    dueDate: "",
+    priority: "Medium",
+    status: "In Progress",
+  },
+];
+
+const mockOnDeleteTask = jest.fn();
+const mockOnUpdateTask = jest.fn();
+const mockOnAddTask = jest.fn();
+
 describe("TaskList", () => {
   it("renders tasks correctly", () => {
     render(
@@ -61,6 +84,20 @@ describe("TaskList", () => {
     // Ensure the delete function is called with the correct task ID
     expect(mockDeleteTask).toHaveBeenCalledWith("1");
     expect(mockDeleteTask).toHaveBeenCalledTimes(1);
+  });
+
+  test("renders TaskList component", () => {
+    const { getByText } = render(
+      <TaskList
+        tasks={mockTasks}
+        onDeleteTask={mockOnDeleteTask}
+        onUpdateTask={mockOnUpdateTask}
+        onAddTask={mockOnAddTask}
+      />
+    );
+
+    expect(getByText("Task 1")).toBeInTheDocument();
+    expect(getByText("Task 2")).toBeInTheDocument();
   });
 
   it("updates a task with new values", async () => {
