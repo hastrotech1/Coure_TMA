@@ -30,6 +30,10 @@ const App: React.FC = () => {
     setEditingTask(null);
   };
 
+  const handleAddTask = (task: Task) => {
+    setTasks((prevTasks) => [...prevTasks, task]);
+  };
+
   const handleDeleteTask = (taskId: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
@@ -38,13 +42,13 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-4xl mx-auto">
         <TaskForm
-          onAddTask={(task) => saveTasks([...tasks, task])}
+          onAddTask={handleAddTask}
           onEditTask={handleEditTask}
           editingTask={editingTask}
         />
         <TaskList
           tasks={tasks}
-          onAddTask={(task) => saveTasks([...tasks, task])}
+          onAddTask={handleAddTask}
           onUpdateTask={(taskId: string, updatedTask: Partial<Task>) =>
             handleUpdateTask(taskId, updatedTask)
           }
