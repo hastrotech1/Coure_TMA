@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import TaskForm from "./TaskForm";
-import { Task } from "../types/Tasks";
+import { Task } from "./Tasks";
 
 describe("TaskForm", () => {
   const mockOnAddTask = jest.fn();

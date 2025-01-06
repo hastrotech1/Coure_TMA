@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import TaskList from "./TaskList";
-import { Task } from "../types/Tasks";
+import { Task } from "./Tasks";
 import "@testing-library/jest-dom";
 
 const sampleTasks: Task[] = [

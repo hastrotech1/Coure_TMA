@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TaskList from "./TaskList";
-import { Task } from "../types/Tasks";
+import { Task } from "./Tasks";
 
 const ParentComponent: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);

@@ -1,6 +1,6 @@
 import React from "react";
 import TaskList from "./components/TaskList";
-import { Task } from "./types/Tasks";
+import { Task } from "./components/Tasks";
 import TaskForm from "./components/TaskForm";
 import "./index.css";
 import { useState } from "react";
